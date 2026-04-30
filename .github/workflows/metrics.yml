@@ -35,20 +35,18 @@ jobs:
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
 
-      - name: Habits
+      - name: Starlists
         uses: lowlighter/metrics@latest
         with:
           token: ${{ secrets.METRICS_TOKEN }}
-          filename: metrics.habits.svg
+          filename: metrics.starlists.svg
           user: YunTing-k
           base: ""
           config_display: regular
           config_timezone: Asia/Shanghai
-          plugin_habits: yes
-          plugin_habits_from: 1000
-          plugin_habits_days: 30
-          plugin_habits_facts: no
-          plugin_habits_charts: yes
+          plugin_starlists: yes
+          plugin_starlists_limit_repositories: 4
+          plugin_starlists_only: TC39
 
       - name: Languages
         uses: lowlighter/metrics@latest
