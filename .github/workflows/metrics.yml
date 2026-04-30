@@ -1,31 +1,67 @@
-name: Metrics
+name: Metrics (split)
+
 on:
-  # Schedule daily updates
   schedule: [{ cron: "0 * * * *" }]
-  # (optional) Run workflow manually
   workflow_dispatch:
-  # (optional) Run workflow when pushing on master/main
   push: { branches: ["master", "main"] }
+
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: lowlighter/metrics@latest
+      # 1. 基础指标（不含任何插件）
+      - name: Base metrics
+        uses: lowlighter/metrics@latest
         with:
           token: ${{ secrets.METRICS_TOKEN }}
-
-          # Options
+          filename: metrics.base.svg
           user: YunTing-k
           template: classic
           base: header, activity, community, repositories, metadata
           config_display: large
           config_timezone: Asia/Shanghai
+          # 关闭所有插件
+          plugin_calendar: no
+          plugin_isocalendar: no
+          plugin_languages: no
+          plugin_topics: no
+          # 关闭自动提交，避免多次 commit
+          git_commits: no
+
+      # 2. 贡献日历插件
+      - name: Contribution calendar
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.calendar.svg
+          user: YunTing-k
+          base: ""                      # 不要基础指标，只显示日历
           plugin_calendar: yes
           plugin_calendar_limit: 1
+          git_commits: no
+
+      # 3. 全年日历（isocalendar）
+      - name: Full-year calendar
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.isocalendar.svg
+          user: YunTing-k
+          base: ""
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
+          git_commits: no
+
+      # 4. 编程语言统计
+      - name: Languages
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.languages.svg
+          user: YunTing-k
+          base: ""
           plugin_languages: yes
           plugin_languages_analysis_timeout: 15
           plugin_languages_categories: markup, programming
@@ -36,7 +72,27 @@ jobs:
           plugin_languages_recent_load: 365
           plugin_languages_sections: most-used
           plugin_languages_threshold: 0%
+          git_commits: no
+
+      # 5. Starred 话题
+      - name: Topics
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics.topics.svg
+          user: YunTing-k
+          base: ""
           plugin_topics: yes
           plugin_topics_limit: 15
           plugin_topics_mode: starred
           plugin_topics_sort: stars
+          git_commits: no
+
+      # 最后统一提交所有生成的 SVG 文件到仓库
+      - name: Commit all metrics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add metrics.*.svg
+          git diff --staged --quiet || git commit -m "chore: update metrics SVGs"
+          git push
