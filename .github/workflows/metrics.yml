@@ -30,21 +30,10 @@ jobs:
           filename: metrics.isocalendar.svg
           user: YunTing-k
           base: ""
-          config_display: regular
+          config_display: large
           config_timezone: Asia/Shanghai
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
-
-      - name: Starlist
-        uses: lowlighter/metrics@latest
-        with:
-          filename: metrics.starlist.svg
-          token: NOT_NEEDED
-          base: ""
-          config_display: regular
-          config_timezone: Asia/Shanghai
-          plugin_starlists: yes
-          plugin_starlists_limit_repositories: 4
 
       - name: Languages
         uses: lowlighter/metrics@latest
