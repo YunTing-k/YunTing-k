@@ -35,12 +35,11 @@ jobs:
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
 
-      - name: Starlists
+      - name: Starlist
         uses: lowlighter/metrics@latest
         with:
-          token: ${{ secrets.METRICS_TOKEN }}
-          filename: metrics.starlists.svg
-          user: YunTing-k
+          filename: metrics.starlist.svg
+          token: NOT_NEEDED
           base: ""
           config_display: regular
           config_timezone: Asia/Shanghai
