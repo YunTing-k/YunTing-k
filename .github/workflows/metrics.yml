@@ -46,7 +46,6 @@ jobs:
           config_timezone: Asia/Shanghai
           plugin_starlists: yes
           plugin_starlists_limit_repositories: 4
-          plugin_starlists_only: TC39
 
       - name: Languages
         uses: lowlighter/metrics@latest
