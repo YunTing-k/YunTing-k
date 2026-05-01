@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-  <img src="https://github.com/YunTing-k/YunTing-k/blob/output/github-contribution-grid-snake.svg" width=100% />
+  <img src="https://github.com/YunTing-k/YunTing-k/blob/master/github-contribution-grid-snake.svg" width=100% />
 </div>
 
 - 📚 I'm currently pursuing Ph.D. degree from Shanghai Jiao Tong University
